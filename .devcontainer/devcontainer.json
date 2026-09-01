@@ -1,0 +1,34 @@
+{
+  "name": "foundry-evaluations",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+    "features": {
+    "ghcr.io/devcontainers/features/azure-cli:1": {},
+    // "stable" resolves to azd 1.24.3, which is too old for azure.ai.agents and silently
+    // downgrades it to 0.1.34-preview — below the >=1.0.0-beta.4 floor in azure.yaml.
+    "ghcr.io/azure/azure-dev/azd:0": {
+      "version": "1.31.2",
+      "extensions": "azure.ai.agents"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "containerEnv": {
+    "PIP_INDEX_URL": "https://packagefeedproxy.microsoft.io/pypi/simple/",
+    "UV_INDEX_URL": "https://packagefeedproxy.microsoft.io/pypi/simple/",
+    "PYTHONPATH": "${containerWorkspaceFolder}"
+  },
+  "postCreateCommand": "pip install --upgrade pip && pip install -r requirements.txt && (test -f .env || cp .env.example .env)",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "ms-toolsai.jupyter-renderers",
+        "ms-azuretools.vscode-azurefunctions"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python"
+      }
+    }
+  }
+}
